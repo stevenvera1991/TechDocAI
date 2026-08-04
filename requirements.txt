@@ -1,0 +1,5 @@
+customtkinter
+google-generativeai
+PyPDF2
+python-dotenv
+Pillow
