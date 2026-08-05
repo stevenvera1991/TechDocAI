@@ -62,3 +62,9 @@ PROMPTS_DIR = BASE_DIR / "prompts"
 LOGS_DIR = BASE_DIR / "logs"
 
 TESTS_DIR = BASE_DIR / "tests"
+
+# ==========================================================
+# LOGS
+# ==========================================================
+
+LOG_FILE = LOGS_DIR / "app.log"
