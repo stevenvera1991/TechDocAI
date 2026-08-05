@@ -1,42 +1,18 @@
 """
 ===========================================================
 TechDocAI
-Punto de entrada de la aplicación
+Punto de entrada
 ===========================================================
 """
 
-from config import (
-    APP_NAME,
-    APP_VERSION,
-    AUTHOR,
-    AI_PROVIDER,
-)
+from app.ui.main_window import TechDocAIApp
 
 
-def mostrar_banner() -> None:
-    """Muestra la información básica del sistema."""
+def main():
 
-    print("=" * 55)
-    print(f"{APP_NAME} v{APP_VERSION}")
-    print("=" * 55)
-    print(f"Autor      : {AUTHOR}")
-    print(f"Proveedor IA: {AI_PROVIDER}")
-    print("=" * 55)
+    app = TechDocAIApp()
 
-
-def inicializar() -> None:
-    """Inicializa la aplicación."""
-
-    print("Inicializando aplicación...")
-    print("Configuración cargada correctamente.")
-    print("Sistema listo para iniciar.")
-
-
-def main() -> None:
-    """Función principal."""
-
-    mostrar_banner()
-    inicializar()
+    app.mainloop()
 
 
 if __name__ == "__main__":
