@@ -2,6 +2,7 @@ from app.ui.header import Header
 from app.ui.sidebar import Sidebar
 from app.ui.workspace import Workspace
 from app.ui.statusbar import StatusBar
+from app.services.pdf_service import PDFService
 
 """
 ===========================================================
@@ -79,7 +80,10 @@ class TechDocAIApp(ctk.CTk):
             sticky="nsew"
         )
 
-        self.sidebar = Sidebar(self)
+        self.sidebar = Sidebar(
+            self,
+            self.abrir_pdf
+        )
 
         self.sidebar.grid(
             row=1,
@@ -103,3 +107,14 @@ class TechDocAIApp(ctk.CTk):
             columnspan=2,
             sticky="ew"
         )
+
+    def abrir_pdf(self):
+
+        ruta = PDFService.seleccionar_pdf()
+
+        if ruta is None:
+            return
+
+        self.workspace.mostrar_pdf(ruta)
+
+        self.statusbar.actualizar_estado("PDF cargado")

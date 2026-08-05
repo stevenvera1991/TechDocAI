@@ -33,15 +33,15 @@ class Workspace(ctk.CTkFrame):
             expand=True
         )
 
-        titulo = ctk.CTkLabel(
+        self.titulo = ctk.CTkLabel(
             contenedor,
             text="Bienvenido a TechDocAI",
             font=("Segoe UI", 28, "bold")
         )
 
-        titulo.pack(pady=(20, 10))
+        self.titulo.pack(pady=(20, 10))
 
-        descripcion = ctk.CTkLabel(
+        self.descripcion = ctk.CTkLabel(
             contenedor,
             text=(
                 "Analice documentos técnicos utilizando Inteligencia Artificial.\n\n"
@@ -55,9 +55,9 @@ class Workspace(ctk.CTkFrame):
             font=("Segoe UI", 14)
         )
 
-        descripcion.pack(pady=10)
+        self.descripcion.pack(pady=10)
 
-        instrucciones = ctk.CTkLabel(
+        self.instrucciones = ctk.CTkLabel(
             contenedor,
             text=(
                 "Para comenzar:\n\n"
@@ -69,4 +69,23 @@ class Workspace(ctk.CTkFrame):
             font=("Segoe UI", 13)
         )
 
-        instrucciones.pack(pady=(20, 0))
+        self.instrucciones.pack(pady=(20, 0))
+
+    def mostrar_pdf(self, ruta):
+
+        self.titulo.configure(
+            text="Documento seleccionado"
+        )
+
+        self.descripcion.configure(
+            text=f"📄 {ruta.name}"
+        )
+
+        self.instrucciones.configure(
+            text=(
+                f"Ubicación:\n"
+                f"{ruta}\n\n"
+                "Estado:\n"
+                "Listo para analizar."
+            )
+        )

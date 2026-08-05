@@ -13,7 +13,9 @@ class Sidebar(ctk.CTkFrame):
     Barra lateral principal.
     """
 
-    def __init__(self, master):
+    def __init__(self, master, abrir_pdf_callback):
+
+        self.abrir_pdf_callback = abrir_pdf_callback
 
         super().__init__(
             master,
@@ -46,7 +48,8 @@ class Sidebar(ctk.CTkFrame):
         self.btn_pdf = ctk.CTkButton(
             self,
             text="Abrir PDF",
-            height=40
+            height=40,
+            command=self.abrir_pdf_callback
         )
 
         self.btn_pdf.pack(
