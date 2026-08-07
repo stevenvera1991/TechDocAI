@@ -71,21 +71,23 @@ class Workspace(ctk.CTkFrame):
 
         self.instrucciones.pack(pady=(20, 0))
 
-    def mostrar_pdf(self, ruta):
+    def mostrar_pdf(self, info):
 
         self.titulo.configure(
-            text="Documento seleccionado"
+            text="Documento cargado correctamente"
         )
 
         self.descripcion.configure(
-            text=f"📄 {ruta.name}"
+            text=f"📄 {info['nombre']}"
         )
 
         self.instrucciones.configure(
             text=(
-                f"Ubicación:\n"
-                f"{ruta}\n\n"
+                f"Páginas: {info['paginas']}\n"
+                f"Tamaño: {info['tamano_mb']} MB\n"
+                f"Caracteres: {info['caracteres']}\n\n"
                 "Estado:\n"
-                "Listo para analizar."
+                "✔ Documento cargado correctamente\n\n"
+                "El documento está listo para analizar con Groq."
             )
         )

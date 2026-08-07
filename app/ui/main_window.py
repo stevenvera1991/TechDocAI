@@ -3,6 +3,7 @@ from app.ui.sidebar import Sidebar
 from app.ui.workspace import Workspace
 from app.ui.statusbar import StatusBar
 from app.services.pdf_service import PDFService
+from tkinter import messagebox
 
 """
 ===========================================================
@@ -115,6 +116,27 @@ class TechDocAIApp(ctk.CTk):
         if ruta is None:
             return
 
-        self.workspace.mostrar_pdf(ruta)
+        try:
 
-        self.statusbar.actualizar_estado("PDF cargado")
+            self.statusbar.actualizar_estado(
+                "Leyendo PDF..."
+            )
+
+            info_pdf = PDFService.leer_pdf(ruta)
+
+            self.workspace.mostrar_pdf(info_pdf)
+
+            self.statusbar.actualizar_estado(
+                "Documento listo"
+            )
+
+        except Exception as error:
+
+            self.statusbar.actualizar_estado(
+                "Error"
+            )
+
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
+            )
