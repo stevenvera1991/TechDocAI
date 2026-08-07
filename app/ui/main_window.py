@@ -4,6 +4,8 @@ from app.ui.workspace import Workspace
 from app.ui.statusbar import StatusBar
 from app.services.pdf_service import PDFService
 from tkinter import messagebox
+from app.core.text_processor import TextProcessor
+from app.models.document import Document
 
 """
 ===========================================================
@@ -124,7 +126,52 @@ class TechDocAIApp(ctk.CTk):
 
             info_pdf = PDFService.leer_pdf(ruta)
 
-            self.workspace.mostrar_pdf(info_pdf)
+            texto_limpio = TextProcessor.limpiar(
+                info_pdf["texto"]
+            )
+
+            chunks = TextProcessor.dividir_chunks(
+                texto_limpio
+            )
+
+            estadisticas = TextProcessor.estadisticas(
+                texto_limpio
+            )
+
+            info_pdf["texto"] = texto_limpio
+
+            info_pdf["palabras"] = estadisticas["palabras"]
+
+            info_pdf["lineas"] = estadisticas["lineas"]
+
+            info_pdf["chunks"] = len(chunks)
+
+            info_pdf["lista_chunks"] = chunks
+
+            documento = Document(
+
+                ruta=info_pdf["ruta"],
+
+                nombre=info_pdf["nombre"],
+
+                paginas=info_pdf["paginas"],
+
+                tamano_mb=info_pdf["tamano_mb"],
+
+                caracteres=info_pdf["caracteres"],
+
+               palabras=info_pdf["palabras"],
+
+                lineas=info_pdf["lineas"],
+
+                chunks=len(chunks),
+
+                texto=texto_limpio,
+
+                lista_chunks=chunks
+            )
+
+            self.workspace.mostrar_pdf(documento)
 
             self.statusbar.actualizar_estado(
                 "Documento listo"

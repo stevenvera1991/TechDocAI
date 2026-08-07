@@ -71,23 +71,42 @@ class Workspace(ctk.CTkFrame):
 
         self.instrucciones.pack(pady=(20, 0))
 
-    def mostrar_pdf(self, info):
+    def mostrar_pdf(self, documento):
 
         self.titulo.configure(
             text="Documento cargado correctamente"
         )
 
         self.descripcion.configure(
-            text=f"📄 {info['nombre']}"
+            text=f"📄 {documento.nombre}"
         )
 
         self.instrucciones.configure(
             text=(
-                f"Páginas: {info['paginas']}\n"
-                f"Tamaño: {info['tamano_mb']} MB\n"
-                f"Caracteres: {info['caracteres']}\n\n"
+                f"Páginas: {documento.paginas}\n"
+                f"Tamaño: {documento.tamano_mb} MB\n"
+                f"Caracteres: {documento.caracteres}\n"
+                f"Palabras: {documento.palabras}\n"
+                f"Líneas: {documento.lineas}\n\n"
+                f"Chunks IA: {documento.chunks}\n"
                 "Estado:\n"
                 "✔ Documento cargado correctamente\n\n"
-                "El documento está listo para analizar con Groq."
+                "Listo para enviar a Groq."
             )
+        )
+    def limpiar(self):
+        """
+        Restablece el Workspace al estado inicial.
+        """
+
+        self.titulo.configure(
+            text="Bienvenido a TechDocAI"
+        )
+
+        self.descripcion.configure(
+            text="Seleccione un documento PDF para comenzar."
+        )
+
+        self.instrucciones.configure(
+            text=""
         )
