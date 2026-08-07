@@ -13,7 +13,7 @@ from pathlib import Path
 
 APP_NAME = "TechDocAI"
 
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.2.0"
 
 AUTHOR = "Steven Vera"
 
