@@ -6,6 +6,7 @@ from app.services.pdf_service import PDFService
 from tkinter import messagebox
 from app.core.text_processor import TextProcessor
 from app.models.document import Document
+from app.controllers.document_controller import DocumentController
 
 """
 ===========================================================
@@ -121,54 +122,11 @@ class TechDocAIApp(ctk.CTk):
         try:
 
             self.statusbar.actualizar_estado(
-                "Leyendo PDF..."
+                "Leyendo documento..."
             )
 
-            info_pdf = PDFService.leer_pdf(ruta)
-
-            texto_limpio = TextProcessor.limpiar(
-                info_pdf["texto"]
-            )
-
-            chunks = TextProcessor.dividir_chunks(
-                texto_limpio
-            )
-
-            estadisticas = TextProcessor.estadisticas(
-                texto_limpio
-            )
-
-            info_pdf["texto"] = texto_limpio
-
-            info_pdf["palabras"] = estadisticas["palabras"]
-
-            info_pdf["lineas"] = estadisticas["lineas"]
-
-            info_pdf["chunks"] = len(chunks)
-
-            info_pdf["lista_chunks"] = chunks
-
-            documento = Document(
-
-                ruta=info_pdf["ruta"],
-
-                nombre=info_pdf["nombre"],
-
-                paginas=info_pdf["paginas"],
-
-                tamano_mb=info_pdf["tamano_mb"],
-
-                caracteres=info_pdf["caracteres"],
-
-               palabras=info_pdf["palabras"],
-
-                lineas=info_pdf["lineas"],
-
-                chunks=len(chunks),
-
-                texto=texto_limpio,
-
-                lista_chunks=chunks
+            documento = DocumentController.cargar_documento(
+                ruta
             )
 
             self.workspace.mostrar_pdf(documento)
@@ -180,7 +138,7 @@ class TechDocAIApp(ctk.CTk):
         except Exception as error:
 
             self.statusbar.actualizar_estado(
-                "Error"
+               "Error"
             )
 
             messagebox.showerror(
