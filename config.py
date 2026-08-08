@@ -78,3 +78,25 @@ TESTS_DIR = BASE_DIR / "tests"
 # ==========================================================
 
 LOG_FILE = LOGS_DIR / "app.log"
+
+# ==========================================================
+# GROQ
+# ==========================================================
+
+from dotenv import load_dotenv
+
+import os
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+load_dotenv(BASE_DIR / ".env")
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+GROQ_MODEL = "llama-3.3-70b-versatile"
+
+GROQ_TEMPERATURE = 0.2
+
+GROQ_MAX_TOKENS = 4096
