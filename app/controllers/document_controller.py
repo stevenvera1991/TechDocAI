@@ -74,3 +74,24 @@ class DocumentController:
         )
 
         return documento
+
+    @staticmethod
+    def analizar_documento():
+
+        if DocumentController.documento_actual is None:
+
+            raise Exception(
+                "No existe un documento cargado."
+            )
+
+        documento = DocumentController.documento_actual
+
+        primer_chunk = documento.lista_chunks[0]
+
+        from app.services.groq_service import GroqService
+
+        respuesta = GroqService.analizar_chunk(
+            primer_chunk
+        )
+
+        return respuesta

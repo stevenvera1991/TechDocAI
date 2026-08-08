@@ -4,8 +4,6 @@ from app.ui.workspace import Workspace
 from app.ui.statusbar import StatusBar
 from app.services.pdf_service import PDFService
 from tkinter import messagebox
-from app.core.text_processor import TextProcessor
-from app.models.document import Document
 from app.controllers.document_controller import DocumentController
 
 """
@@ -95,6 +93,10 @@ class TechDocAIApp(ctk.CTk):
             sticky="nsew"
         )
 
+        self.sidebar.btn_ia.configure(
+            command=self.analizar_documento
+        )
+
         self.workspace = Workspace(self)
 
         self.workspace.grid(
@@ -144,4 +146,33 @@ class TechDocAIApp(ctk.CTk):
             messagebox.showerror(
                 "TechDocAI",
                 str(error)
+            )
+
+    def analizar_documento(self):
+
+        try:
+
+            self.statusbar.actualizar_estado(
+                "Consultando Groq..."
+            )
+
+            respuesta = DocumentController.analizar_documento()
+
+            self.workspace.mostrar_respuesta_ia(
+                respuesta
+            )
+
+            self.statusbar.actualizar_estado(
+                "Análisis finalizado"
+            )
+
+        except Exception as error:
+
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
+            )
+
+            self.statusbar.actualizar_estado(
+                "Error"
             )

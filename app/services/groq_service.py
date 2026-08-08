@@ -67,3 +67,40 @@ class GroqService:
             logger.error(str(error))
 
             raise
+
+    @classmethod
+    def analizar_chunk(cls, texto):
+
+        respuesta = cls.cliente().chat.completions.create(
+
+            model=GROQ_MODEL,
+
+            temperature=GROQ_TEMPERATURE,
+
+            max_tokens=600,
+
+            messages=[
+                {
+                    "role": "system",
+                    "content":
+                    (
+                        "Eres un ingeniero experto en análisis de "
+                        "documentación técnica."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content":
+                    (
+                        "Analiza el siguiente documento técnico.\n\n"
+                        f"{texto}"
+                    )
+                }
+            ]
+        )
+
+        return respuesta.choices[0].message.content
+
+    @classmethod
+    def prueba(cls):
+        return "OK"

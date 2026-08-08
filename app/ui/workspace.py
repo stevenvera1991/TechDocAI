@@ -110,3 +110,22 @@ class Workspace(ctk.CTkFrame):
         self.instrucciones.configure(
             text=""
         )
+
+    def mostrar_respuesta_ia(self, respuesta):
+
+        self.titulo.configure(
+            text="Análisis generado por IA"
+        )
+
+        self.descripcion.configure(
+            text="Respuesta del modelo Groq"
+        )
+
+        texto = respuesta
+
+        if len(texto) > 3000:
+            texto = texto[:3000] + "\n\n[...]"
+
+        self.instrucciones.configure(
+            text=texto
+        )
