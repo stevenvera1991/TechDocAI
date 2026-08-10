@@ -1,11 +1,15 @@
 """
 ===========================================================
 TechDocAI
-Configuración general del sistema
+Configuración general de la aplicación
 ===========================================================
 """
 
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
+
 
 # ==========================================================
 # INFORMACIÓN DEL PROYECTO
@@ -13,13 +17,14 @@ from pathlib import Path
 
 APP_NAME = "TechDocAI"
 
-APP_VERSION = "0.2.0"
+APP_VERSION = "0.4.0"
 
 AUTHOR = "Steven Vera"
 
 COURSE = "Python + IA"
 
 INSTITUTION = "Institute Technology Bertoni"
+
 
 # ==========================================================
 # PROVEEDOR IA
@@ -33,6 +38,7 @@ TEMPERATURE = 0.3
 
 MAX_TOKENS = 2048
 
+
 # ==========================================================
 # VENTANA
 # ==========================================================
@@ -43,6 +49,9 @@ WINDOW_WIDTH = 1200
 
 WINDOW_HEIGHT = 750
 
+WINDOW_RESIZABLE = True
+
+
 # ==========================================================
 # APARIENCIA
 # ==========================================================
@@ -51,10 +60,9 @@ THEME_MODE = "dark"
 
 COLOR_THEME = "blue"
 
-WINDOW_RESIZABLE = True
 
 # ==========================================================
-# RUTAS
+# RUTAS DEL PROYECTO
 # ==========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -73,27 +81,25 @@ LOGS_DIR = BASE_DIR / "logs"
 
 TESTS_DIR = BASE_DIR / "tests"
 
+
 # ==========================================================
 # LOGS
 # ==========================================================
 
 LOG_FILE = LOGS_DIR / "app.log"
 
+
 # ==========================================================
 # GROQ
 # ==========================================================
 
-from dotenv import load_dotenv
+load_dotenv(
+    BASE_DIR / ".env"
+)
 
-import os
-
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-
-load_dotenv(BASE_DIR / ".env")
-
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = os.getenv(
+    "GROQ_API_KEY"
+)
 
 GROQ_MODEL = "llama-3.3-70b-versatile"
 
