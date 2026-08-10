@@ -1,11 +1,3 @@
-from app.ui.header import Header
-from app.ui.sidebar import Sidebar
-from app.ui.workspace import Workspace
-from app.ui.statusbar import StatusBar
-from app.services.pdf_service import PDFService
-from tkinter import messagebox
-from app.controllers.document_controller import DocumentController
-
 """
 ===========================================================
 TechDocAI
@@ -14,6 +6,7 @@ Ventana principal
 """
 
 import customtkinter as ctk
+from tkinter import messagebox
 
 from config import (
     WINDOW_TITLE,
@@ -24,6 +17,16 @@ from config import (
     COLOR_THEME,
     WINDOW_RESIZABLE,
 )
+
+from app.ui.header import Header
+from app.ui.sidebar import Sidebar
+from app.ui.workspace import Workspace
+from app.ui.statusbar import StatusBar
+
+from app.services.pdf_service import PDFService
+from app.services.export_service import ExportService
+
+from app.controllers.document_controller import DocumentController
 
 
 class TechDocAIApp(ctk.CTk):
@@ -39,20 +42,39 @@ class TechDocAIApp(ctk.CTk):
         self._crear_layout()
 
     def _configurar_apariencia(self):
-        ctk.set_appearance_mode(THEME_MODE)
-        ctk.set_default_color_theme(COLOR_THEME)
+
+        ctk.set_appearance_mode(
+            THEME_MODE
+        )
+
+        ctk.set_default_color_theme(
+            COLOR_THEME
+        )
 
     def _configurar_ventana(self):
 
-        self.title(f"{WINDOW_TITLE} v{APP_VERSION}")
+        self.title(
+            f"{WINDOW_TITLE} v{APP_VERSION}"
+        )
 
-        self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+        self.geometry(
+            f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}"
+        )
 
-        self.resizable(WINDOW_RESIZABLE, WINDOW_RESIZABLE)
+        self.resizable(
+            WINDOW_RESIZABLE,
+            WINDOW_RESIZABLE
+        )
 
-        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(
+            1,
+            weight=1
+        )
 
-        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(
+            1,
+            weight=1
+        )
 
         self._centrar()
 
@@ -66,10 +88,17 @@ class TechDocAIApp(ctk.CTk):
         pantalla_ancho = self.winfo_screenwidth()
         pantalla_alto = self.winfo_screenheight()
 
-        x = int((pantalla_ancho - ancho) / 2)
-        y = int((pantalla_alto - alto) / 2)
+        x = int(
+            (pantalla_ancho - ancho) / 2
+        )
 
-        self.geometry(f"{ancho}x{alto}+{x}+{y}")
+        y = int(
+            (pantalla_alto - alto) / 2
+        )
+
+        self.geometry(
+            f"{ancho}x{alto}+{x}+{y}"
+        )
 
     def _crear_layout(self):
 
@@ -97,7 +126,13 @@ class TechDocAIApp(ctk.CTk):
             command=self.analizar_documento
         )
 
-        self.workspace = Workspace(self)
+        self.sidebar.btn_exportar.configure(
+            command=self.exportar_informe
+        )
+
+        self.workspace = Workspace(
+            self
+        )
 
         self.workspace.grid(
             row=1,
@@ -105,7 +140,9 @@ class TechDocAIApp(ctk.CTk):
             sticky="nsew"
         )
 
-        self.statusbar = StatusBar(self)
+        self.statusbar = StatusBar(
+            self
+        )
 
         self.statusbar.grid(
             row=2,
@@ -131,7 +168,9 @@ class TechDocAIApp(ctk.CTk):
                 ruta
             )
 
-            self.workspace.mostrar_pdf(documento)
+            self.workspace.mostrar_pdf(
+                documento
+            )
 
             self.statusbar.actualizar_estado(
                 "Documento listo"
@@ -140,7 +179,7 @@ class TechDocAIApp(ctk.CTk):
         except Exception as error:
 
             self.statusbar.actualizar_estado(
-               "Error"
+                "Error"
             )
 
             messagebox.showerror(
@@ -156,7 +195,9 @@ class TechDocAIApp(ctk.CTk):
                 "Consultando Groq..."
             )
 
-            respuesta = DocumentController.analizar_documento()
+            respuesta = (
+                DocumentController.analizar_documento()
+            )
 
             self.workspace.mostrar_respuesta_ia(
                 respuesta
@@ -175,4 +216,39 @@ class TechDocAIApp(ctk.CTk):
 
             self.statusbar.actualizar_estado(
                 "Error"
+            )
+
+    def exportar_informe(self):
+
+        try:
+
+            self.statusbar.actualizar_estado(
+                "Exportando informe..."
+            )
+
+            ruta_archivo = (
+                ExportService.exportar_markdown()
+            )
+
+            self.statusbar.actualizar_estado(
+                "Informe exportado"
+            )
+
+            messagebox.showinfo(
+                "TechDocAI",
+                (
+                    "Informe exportado correctamente.\n\n"
+                    f"Archivo:\n{ruta_archivo}"
+                )
+            )
+
+        except Exception as error:
+
+            self.statusbar.actualizar_estado(
+                "Error de exportación"
+            )
+
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
             )

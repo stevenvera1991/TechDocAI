@@ -33,10 +33,15 @@ class Document:
 
     texto: str
 
-    lista_chunks: list[str] = field(default_factory=list)
+    lista_chunks: list[str] = field(
+        default_factory=list
+    )
+
+    analisis: str = ""
 
     @property
     def resumen_estadistico(self) -> str:
+
         return (
             f"{self.paginas} páginas | "
             f"{self.palabras:,} palabras | "

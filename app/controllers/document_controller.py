@@ -117,4 +117,10 @@ class DocumentController:
             resumenes
         )
 
+        documento.analisis = informe
+
+        logger.info(
+            "Informe consolidado generado correctamente."
+        )
+
         return informe
