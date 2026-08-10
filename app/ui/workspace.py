@@ -57,6 +57,31 @@ class Workspace(ctk.CTkFrame):
 
         self.descripcion.pack(pady=10)
 
+        self.resultado = ctk.CTkTextbox(
+            contenedor,
+            width=800,
+            height=350,
+            font=("Consolas", 13),
+            wrap="word"
+        )
+
+        self.resultado.pack(
+            fill="both",
+            expand=True,
+            padx=30,
+            pady=20
+        )
+
+        self.resultado.insert(
+            "1.0",
+            "Aquí aparecerán los resultados del análisis con IA."
+        )
+
+        self.resultado.configure(
+            state="disabled"
+        )
+
+        """
         self.instrucciones = ctk.CTkLabel(
             contenedor,
             text=(
@@ -70,6 +95,7 @@ class Workspace(ctk.CTkFrame):
         )
 
         self.instrucciones.pack(pady=(20, 0))
+        """
 
     def mostrar_pdf(self, documento):
 
@@ -81,19 +107,35 @@ class Workspace(ctk.CTkFrame):
             text=f"📄 {documento.nombre}"
         )
 
-        self.instrucciones.configure(
-            text=(
+        self.resultado.configure(
+            state="normal"
+        )
+
+        self.resultado.delete(
+            "1.0",
+            "end"
+        )
+
+        self.resultado.insert(
+            "1.0",
+            (
+                f"Documento: {documento.nombre}\n\n"
                 f"Páginas: {documento.paginas}\n"
                 f"Tamaño: {documento.tamano_mb} MB\n"
                 f"Caracteres: {documento.caracteres}\n"
                 f"Palabras: {documento.palabras}\n"
-                f"Líneas: {documento.lineas}\n\n"
-                f"Chunks IA: {documento.chunks}\n"
+                f"Líneas: {documento.lineas}\n"
+                f"Chunks IA: {documento.chunks}\n\n"
                 "Estado:\n"
-                "✔ Documento cargado correctamente\n\n"
+                "✓ Documento cargado correctamente.\n\n"
                 "Listo para enviar a Groq."
             )
         )
+
+        self.resultado.configure(
+            state="disabled"
+        )
+
     def limpiar(self):
         """
         Restablece el Workspace al estado inicial.
@@ -121,11 +163,20 @@ class Workspace(ctk.CTkFrame):
             text="Respuesta del modelo Groq"
         )
 
-        texto = respuesta
+        self.resultado.configure(
+            state="normal"
+        )
 
-        if len(texto) > 3000:
-            texto = texto[:3000] + "\n\n[...]"
+        self.resultado.delete(
+            "1.0",
+            "end"
+        )
 
-        self.instrucciones.configure(
-            text=texto
+        self.resultado.insert(
+            "1.0",
+            respuesta
+        )
+
+        self.resultado.configure(
+            state="disabled"
         )

@@ -102,5 +102,109 @@ class GroqService:
         return respuesta.choices[0].message.content
 
     @classmethod
+    def resumir_chunk(cls, texto):
+
+        respuesta = cls.cliente().chat.completions.create(
+
+            model=GROQ_MODEL,
+
+            temperature=0.2,
+
+            max_tokens=220,
+
+            messages=[
+
+               {
+                    "role": "system",
+                    "content":
+                    (
+                        "Eres un ingeniero experto en documentación técnica."
+                    )
+                },
+
+                {
+                    "role": "user",
+                    "content":
+                    (
+                        "Resume este fragmento técnico en máximo 120 palabras.\n\n"
+
+                        "Incluye únicamente:\n"
+
+                        "- Tema principal\n"
+
+                        "- Conceptos importantes\n"
+
+                        "- Datos relevantes\n\n"
+
+                        f"{texto}"
+                    )
+                }
+
+            ]
+
+        )
+
+        return respuesta.choices[0].message.content
+
+    @classmethod
+    def generar_informe(cls, resumenes):
+
+        texto = "\n\n".join(resumenes)
+
+        respuesta = cls.cliente().chat.completions.create(
+
+            model=GROQ_MODEL,
+
+            temperature=0.2,
+
+            max_tokens=900,
+
+            messages=[
+
+                {
+                    "role":"system",
+
+                    "content":
+
+                    (
+                        "Eres un ingeniero especializado en análisis documental."
+                    )
+                },
+
+                {
+                    "role":"user",
+
+                    "content":
+
+                    (
+                        "A partir de los siguientes resúmenes genera un único "
+
+                        "informe técnico profesional.\n\n"
+
+                        "Incluye:\n"
+
+                        "- Resumen ejecutivo\n"
+
+                        "- Objetivo\n"
+
+                        "- Temas principales\n"
+
+                        "- Hallazgos\n"
+
+                        "- Conclusiones\n"
+
+                        "- Recomendaciones\n\n"
+
+                        f"{texto}"
+                    )
+                }
+
+            ]
+
+        )
+
+        return respuesta.choices[0].message.content
+
+    @classmethod
     def prueba(cls):
         return "OK"

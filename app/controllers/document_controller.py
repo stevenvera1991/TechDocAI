@@ -7,6 +7,7 @@ Controlador de documentos
 
 from app.models.document import Document
 from app.services.pdf_service import PDFService
+from app.services.groq_service import GroqService
 from app.core.text_processor import TextProcessor
 from app.utils.logger import logger
 
@@ -86,12 +87,34 @@ class DocumentController:
 
         documento = DocumentController.documento_actual
 
-        primer_chunk = documento.lista_chunks[0]
+        resumenes = []
 
-        from app.services.groq_service import GroqService
+        total = len(documento.lista_chunks)
 
-        respuesta = GroqService.analizar_chunk(
-            primer_chunk
+        logger.info(
+            f"Procesando {total} chunks..."
         )
 
-        return respuesta
+        for indice, chunk in enumerate(documento.lista_chunks):
+
+            logger.info(
+                f"Resumiendo chunk {indice+1}/{total}"
+            )
+
+            resumen = GroqService.resumir_chunk(
+                chunk
+            )
+
+            resumenes.append(
+                resumen
+            )
+
+        logger.info(
+            "Generando informe consolidado..."
+        )
+
+        informe = GroqService.generar_informe(
+            resumenes
+        )
+
+        return informe
