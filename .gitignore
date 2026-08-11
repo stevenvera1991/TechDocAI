@@ -44,3 +44,10 @@ logs/*.log
 
 Thumbs.db
 .DS_Store
+
+# ==========================================================
+# ARCHIVOS GENERADOS POR TECHDOCAI
+# ==========================================================
+
+exports/
+historial/

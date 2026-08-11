@@ -6,6 +6,7 @@ Ventana principal
 """
 
 import customtkinter as ctk
+
 from tkinter import messagebox
 
 from config import (
@@ -35,11 +36,18 @@ class TechDocAIApp(ctk.CTk):
     """
 
     def __init__(self):
+
         super().__init__()
 
         self._configurar_apariencia()
+
         self._configurar_ventana()
+
         self._crear_layout()
+
+    # ======================================================
+    # APARIENCIA
+    # ======================================================
 
     def _configurar_apariencia(self):
 
@@ -50,6 +58,10 @@ class TechDocAIApp(ctk.CTk):
         ctk.set_default_color_theme(
             COLOR_THEME
         )
+
+    # ======================================================
+    # CONFIGURACIÓN DE VENTANA
+    # ======================================================
 
     def _configurar_ventana(self):
 
@@ -78,6 +90,10 @@ class TechDocAIApp(ctk.CTk):
 
         self._centrar()
 
+    # ======================================================
+    # CENTRAR VENTANA
+    # ======================================================
+
     def _centrar(self):
 
         self.update_idletasks()
@@ -85,8 +101,13 @@ class TechDocAIApp(ctk.CTk):
         ancho = WINDOW_WIDTH
         alto = WINDOW_HEIGHT
 
-        pantalla_ancho = self.winfo_screenwidth()
-        pantalla_alto = self.winfo_screenheight()
+        pantalla_ancho = (
+            self.winfo_screenwidth()
+        )
+
+        pantalla_alto = (
+            self.winfo_screenheight()
+        )
 
         x = int(
             (pantalla_ancho - ancho) / 2
@@ -100,9 +121,19 @@ class TechDocAIApp(ctk.CTk):
             f"{ancho}x{alto}+{x}+{y}"
         )
 
+    # ======================================================
+    # CREAR LAYOUT
+    # ======================================================
+
     def _crear_layout(self):
 
-        self.header = Header(self)
+        # --------------------------------------------------
+        # HEADER
+        # --------------------------------------------------
+
+        self.header = Header(
+            self
+        )
 
         self.header.grid(
             row=0,
@@ -111,9 +142,18 @@ class TechDocAIApp(ctk.CTk):
             sticky="nsew"
         )
 
+        # --------------------------------------------------
+        # SIDEBAR
+        # --------------------------------------------------
+
         self.sidebar = Sidebar(
             self,
-            self.abrir_pdf
+            self.abrir_pdf,
+            self.analizar_documento,
+            self.generar_resumen,
+            self.exportar_markdown,
+            self.exportar_pdf,
+            self.exportar_docx,
         )
 
         self.sidebar.grid(
@@ -122,13 +162,9 @@ class TechDocAIApp(ctk.CTk):
             sticky="nsew"
         )
 
-        self.sidebar.btn_ia.configure(
-            command=self.analizar_documento
-        )
-
-        self.sidebar.btn_exportar.configure(
-            command=self.exportar_informe
-        )
+        # --------------------------------------------------
+        # WORKSPACE
+        # --------------------------------------------------
 
         self.workspace = Workspace(
             self
@@ -139,6 +175,10 @@ class TechDocAIApp(ctk.CTk):
             column=1,
             sticky="nsew"
         )
+
+        # --------------------------------------------------
+        # STATUS BAR
+        # --------------------------------------------------
 
         self.statusbar = StatusBar(
             self
@@ -151,11 +191,16 @@ class TechDocAIApp(ctk.CTk):
             sticky="ew"
         )
 
+    # ======================================================
+    # ABRIR PDF
+    # ======================================================
+
     def abrir_pdf(self):
 
         ruta = PDFService.seleccionar_pdf()
 
         if ruta is None:
+
             return
 
         try:
@@ -164,8 +209,10 @@ class TechDocAIApp(ctk.CTk):
                 "Leyendo documento..."
             )
 
-            documento = DocumentController.cargar_documento(
-                ruta
+            documento = (
+                DocumentController.cargar_documento(
+                    ruta
+                )
             )
 
             self.workspace.mostrar_pdf(
@@ -187,6 +234,10 @@ class TechDocAIApp(ctk.CTk):
                 str(error)
             )
 
+    # ======================================================
+    # ANALIZAR DOCUMENTO
+    # ======================================================
+
     def analizar_documento(self):
 
         try:
@@ -196,7 +247,8 @@ class TechDocAIApp(ctk.CTk):
             )
 
             respuesta = (
-                DocumentController.analizar_documento()
+                DocumentController
+                .analizar_documento()
             )
 
             self.workspace.mostrar_respuesta_ia(
@@ -218,37 +270,161 @@ class TechDocAIApp(ctk.CTk):
                 "Error"
             )
 
-    def exportar_informe(self):
+    # ======================================================
+    # GENERAR RESUMEN
+    # ======================================================
+
+    def generar_resumen(self):
 
         try:
 
-            self.statusbar.actualizar_estado(
-                "Exportando informe..."
+            documento = (
+                DocumentController
+                .documento_actual
             )
 
-            ruta_archivo = (
-                ExportService.exportar_markdown()
+            if documento is None:
+
+                raise Exception(
+                    "No existe un documento cargado."
+                )
+
+            if not hasattr(
+                documento,
+                "analisis"
+            ) or not documento.analisis:
+
+                raise Exception(
+                    "Debe analizar el documento "
+                    "antes de generar el resumen."
+                )
+
+            self.workspace.mostrar_respuesta_ia(
+                documento.analisis
             )
 
             self.statusbar.actualizar_estado(
-                "Informe exportado"
+                "Resumen disponible"
+            )
+
+        except Exception as error:
+
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
+            )
+
+            self.statusbar.actualizar_estado(
+                "Error"
+            )
+
+    # ======================================================
+    # EXPORTAR MARKDOWN
+    # ======================================================
+
+    def exportar_markdown(self):
+
+        try:
+
+            ruta = (
+                ExportService
+                .exportar_markdown()
             )
 
             messagebox.showinfo(
                 "TechDocAI",
                 (
-                    "Informe exportado correctamente.\n\n"
-                    f"Archivo:\n{ruta_archivo}"
+                    "Informe Markdown "
+                    "exportado correctamente.\n\n"
+                    f"Archivo:\n{ruta}"
                 )
+            )
+
+            self.statusbar.actualizar_estado(
+                "Markdown exportado"
             )
 
         except Exception as error:
 
-            self.statusbar.actualizar_estado(
-                "Error de exportación"
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
             )
+
+            self.statusbar.actualizar_estado(
+                "Error"
+            )
+
+    # ======================================================
+    # EXPORTAR PDF
+    # ======================================================
+
+    def exportar_pdf(self):
+
+        try:
+
+            ruta = (
+                ExportService
+                .exportar_pdf()
+            )
+
+            messagebox.showinfo(
+                "TechDocAI",
+                (
+                    "Informe PDF "
+                    "exportado correctamente.\n\n"
+                    f"Archivo:\n{ruta}"
+                )
+            )
+
+            self.statusbar.actualizar_estado(
+                "PDF exportado"
+            )
+
+        except Exception as error:
 
             messagebox.showerror(
                 "TechDocAI",
                 str(error)
+            )
+
+            self.statusbar.actualizar_estado(
+                "Error"
+            )
+
+    # ======================================================
+    # EXPORTAR DOCX
+    # ======================================================
+
+    def exportar_docx(self):
+
+        try:
+
+            ruta = (
+                ExportService
+                .exportar_docx()
+            )
+
+            messagebox.showinfo(
+                "TechDocAI",
+                (
+                    "Informe DOCX "
+                    "exportado correctamente.\n\n"
+                    f"Archivo:\n{ruta}"
+                )
+            )
+
+            self.statusbar.actualizar_estado(
+                "DOCX exportado"
+            )
+
+        except Exception as error:
+
+            messagebox.showerror(
+                "TechDocAI",
+                str(error)
+            )
+
+            self.statusbar.actualizar_estado(
+                "Error"
             )
