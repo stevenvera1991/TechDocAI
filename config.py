@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 APP_NAME = "TechDocAI"
 
-APP_VERSION = "0.4.0"
+APP_VERSION = "0.5.0"
 
 AUTHOR = "Steven Vera"
 

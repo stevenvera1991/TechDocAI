@@ -1,0 +1,18 @@
+Genera un resumen ejecutivo técnico del análisis proporcionado.
+
+El resumen debe:
+
+1. Identificar el documento analizado.
+2. Explicar brevemente su contenido principal.
+3. Identificar los aspectos técnicos más relevantes.
+4. Destacar datos, resultados o hallazgos importantes.
+5. Señalar conclusiones relevantes presentes en el análisis.
+6. Mantener fidelidad al contenido proporcionado.
+7. No inventar información que no aparezca en el análisis.
+8. Utilizar lenguaje técnico, claro y profesional.
+
+La respuesta debe ser concisa pero suficientemente informativa para que un usuario pueda comprender el contenido esencial del documento sin leer el informe completo.
+
+No incluyas comentarios sobre el funcionamiento de la inteligencia artificial.
+No menciones que eres un modelo de lenguaje.
+No agregues información externa al análisis proporcionado.

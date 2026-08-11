@@ -278,33 +278,21 @@ class TechDocAIApp(ctk.CTk):
 
         try:
 
-            documento = (
-                DocumentController
-                .documento_actual
+            self.statusbar.actualizar_estado(
+                "Generando resumen ejecutivo..."
             )
 
-            if documento is None:
-
-                raise Exception(
-                    "No existe un documento cargado."
-                )
-
-            if not hasattr(
-                documento,
-                "analisis"
-            ) or not documento.analisis:
-
-                raise Exception(
-                    "Debe analizar el documento "
-                    "antes de generar el resumen."
-                )
+            respuesta = (
+                DocumentController
+                .generar_resumen()
+            )
 
             self.workspace.mostrar_respuesta_ia(
-                documento.analisis
+                respuesta
             )
 
             self.statusbar.actualizar_estado(
-                "Resumen disponible"
+                "Resumen generado correctamente"
             )
 
         except Exception as error:

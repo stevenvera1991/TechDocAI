@@ -5,6 +5,8 @@ Servicio Groq
 ===========================================================
 """
 
+from pathlib import Path
+
 from groq import Groq
 
 from config import (
@@ -204,6 +206,87 @@ class GroqService:
         )
 
         return respuesta.choices[0].message.content
+
+    @classmethod
+    def generar_resumen(cls, informe):
+
+        """
+        Genera un resumen ejecutivo a partir
+        del informe técnico consolidado.
+        """
+
+        if not informe or not str(informe).strip():
+            raise ValueError(
+                "No existe un informe disponible "
+                "para generar el resumen."
+            )
+
+        ruta_prompt = (
+            Path(__file__).resolve().parents[2]
+            / "prompts"
+            / "resumen.txt"
+        )
+
+        if not ruta_prompt.exists():
+            raise FileNotFoundError(
+                f"No se encontró el prompt de resumen: "
+                f"{ruta_prompt}"
+            )
+
+        prompt = ruta_prompt.read_text(
+            encoding="utf-8"
+        ).strip()
+
+        if not prompt:
+            raise ValueError(
+                "El archivo prompts/resumen.txt "
+                "está vacío."
+            )
+
+        respuesta = cls.cliente().chat.completions.create(
+
+            model=GROQ_MODEL,
+
+            temperature=0.2,
+
+            max_tokens=500,
+
+            messages=[
+
+                {
+                    "role": "system",
+
+                    "content": prompt
+                },
+
+                {
+                    "role": "user",
+
+                    "content": (
+                        "Genera el resumen ejecutivo "
+                        "del siguiente informe técnico.\n\n"
+                        f"{informe}"
+                    )
+                }
+
+            ]
+
+        )
+
+        resumen = (
+            respuesta
+            .choices[0]
+            .message
+            .content
+        )
+
+        if not resumen or not resumen.strip():
+            raise ValueError(
+                "Groq no devolvió contenido "
+                "para el resumen."
+            )
+
+        return resumen.strip()
 
     @classmethod
     def prueba(cls):

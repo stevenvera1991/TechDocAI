@@ -11,6 +11,7 @@ from app.services.groq_service import GroqService
 from app.core.text_processor import TextProcessor
 from app.utils.logger import logger
 
+
 class DocumentController:
     """
     Controlador encargado del flujo completo de procesamiento
@@ -95,7 +96,9 @@ class DocumentController:
             f"Procesando {total} chunks..."
         )
 
-        for indice, chunk in enumerate(documento.lista_chunks):
+        for indice, chunk in enumerate(
+            documento.lista_chunks
+        ):
 
             logger.info(
                 f"Resumiendo chunk {indice+1}/{total}"
@@ -124,3 +127,35 @@ class DocumentController:
         )
 
         return informe
+
+    @staticmethod
+    def generar_resumen():
+
+        if DocumentController.documento_actual is None:
+
+            raise Exception(
+                "No existe un documento cargado."
+            )
+
+        documento = DocumentController.documento_actual
+
+        if not documento.analisis:
+
+            raise Exception(
+                "Debe analizar el documento antes "
+                "de generar el resumen."
+            )
+
+        logger.info(
+            "Generando resumen ejecutivo..."
+        )
+
+        resumen = GroqService.generar_resumen(
+            documento.analisis
+        )
+
+        logger.info(
+            "Resumen ejecutivo generado correctamente."
+        )
+
+        return resumen
