@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 APP_NAME = "TechDocAI"
 
-APP_VERSION = "0.5.0"
+APP_VERSION = "0.6.1"
 
 AUTHOR = "Steven Vera"
 
@@ -34,9 +34,7 @@ AI_PROVIDER = "groq"
 
 MODEL_NAME = "llama-3.3-70b-versatile"
 
-TEMPERATURE = 0.3
 
-MAX_TOKENS = 2048
 
 
 # ==========================================================
@@ -67,13 +65,9 @@ COLOR_THEME = "blue"
 
 BASE_DIR = Path(__file__).resolve().parent
 
-ASSETS_DIR = BASE_DIR / "assets"
 
-DATA_DIR = BASE_DIR / "data"
 
-PDF_DIR = DATA_DIR / "pdf"
 
-RESULTS_DIR = DATA_DIR / "resultados"
 
 PROMPTS_DIR = BASE_DIR / "prompts"
 

@@ -1,7 +1,7 @@
-customtkinter
-groq
-PyPDF2
-python-dotenv
-Pillow
-reportlab
-python-docx
+customtkinter==6.0.0
+groq==1.6.0
+PyPDF2==3.0.1
+python-dotenv==1.2.2
+Pillow==12.3.0
+reportlab==5.0.0
+python-docx==1.2.0
