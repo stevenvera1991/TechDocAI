@@ -6,6 +6,27 @@ El proyecto utiliza versiones etiquetadas mediante Git para mantener la trazabil
 
 ---
 
+## [0.7.0] - 2026-08-17
+
+### Changed
+
+- Actualización del modelo de inteligencia artificial utilizado por TechDocAI a `openai/gpt-oss-120b`.
+- Mantenimiento de Groq como proveedor de inteligencia artificial.
+- Actualización de la versión de la aplicación a `0.7.0`.
+- Sincronización de la versión entre `VERSION` y `config.py`.
+- Actualización de la documentación técnica y arquitectónica para reflejar el estado actual del proyecto.
+
+### Validation
+
+- Verificación de la conexión con la API de Groq.
+- Ejecución funcional de TechDocAI.
+- Carga y procesamiento de un documento PDF.
+- Análisis del documento mediante `openai/gpt-oss-120b`.
+- Generación del informe consolidado.
+- Generación del resumen ejecutivo.
+
+---
+
 ## [0.6.1] - 2026-08-12
 
 ### Changed

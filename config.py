@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 APP_NAME = "TechDocAI"
 
-APP_VERSION = "0.6.1"
+APP_VERSION = "0.7.0"
 
 AUTHOR = "Steven Vera"
 
@@ -32,7 +32,7 @@ INSTITUTION = "Institute Technology Bertoni"
 
 AI_PROVIDER = "groq"
 
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "openai/gpt-oss-120b"
 
 
 
@@ -95,7 +95,7 @@ GROQ_API_KEY = os.getenv(
     "GROQ_API_KEY"
 )
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-120b"
 
 GROQ_TEMPERATURE = 0.2
 

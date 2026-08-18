@@ -340,7 +340,7 @@ La publicación de nuevas versiones debe realizarse mediante el proceso de versi
 Las versiones oficiales se identifican mediante etiquetas Git:
 
 ```text
-v0.6.1
+v0.7.0
 ```
 
 ---

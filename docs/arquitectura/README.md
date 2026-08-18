@@ -6,7 +6,7 @@ TechDocAI utiliza una arquitectura modular desarrollada en Python. El proyecto s
 
 Esta separación permite mantener el código organizado, facilitar el mantenimiento y permitir la evolución progresiva de las diferentes funcionalidades de la aplicación.
 
-La arquitectura documentada corresponde al estado funcional de la versión `v0.6.1`.
+La arquitectura documentada corresponde al estado funcional de la versión `v0.7.0`.
 
 ---
 
@@ -315,11 +315,11 @@ Gestiona la comunicación con la API de Groq.
 
 El servicio recibe el contenido preparado para el análisis y realiza las solicitudes al modelo configurado.
 
-En la versión `v0.6.1` se utiliza:
+En la versión `v0.7.0` se utiliza:
 
 ```text
 Proveedor: Groq
-Modelo: llama-3.3-70b-versatile
+Modelo: openai/gpt-oss-120b
 ```
 
 El flujo de comunicación es:
@@ -391,7 +391,7 @@ Este archivo centraliza parámetros generales como:
 La versión actual es:
 
 ```text
-0.6.1
+0.7.0
 ```
 
 La versión también se mantiene registrada en:
@@ -699,9 +699,9 @@ La separación de responsabilidades permite localizar con mayor facilidad los co
 
 ---
 
-## Estado arquitectónico en v0.6.1
+## Estado arquitectónico en v0.7.0
 
-La arquitectura documentada corresponde al estado funcional de `v0.6.1`.
+La arquitectura documentada corresponde al estado funcional de `v0.7.0`.
 
 En esta versión se encuentran implementados los principales componentes necesarios para:
 
